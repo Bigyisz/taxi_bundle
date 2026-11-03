@@ -16,6 +16,7 @@ def test_clean_trips_removes_bad_rows():
         (1.5, 10.0, start, end),   # good trip
         (0.0, 5.0, start, end),    # zero distance
         (2.0, -1.0, start, end),   # negative fare
+        (1.0, 8.0, end, start),    # dropoff before pickup
     ]
     cols = ["trip_distance", "fare_amount",
             "tpep_pickup_datetime", "tpep_dropoff_datetime"]
