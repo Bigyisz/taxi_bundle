@@ -6,6 +6,7 @@ def clean_trips(df: DataFrame) -> DataFrame:
         df
         .filter(F.col("trip_distance") > 0)
         .filter(F.col("fare_amount") > 0)
+        .filter(F.col("tpep_dropoff_datetime") > F.col("tpep_pickup_datetime"))
         .withColumn(
             "trip_minutes",
             (F.unix_timestamp("tpep_dropoff_datetime")
