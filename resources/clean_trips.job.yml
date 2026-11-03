@@ -1,0 +1,19 @@
+resources:
+  jobs:
+    clean_trips_job:
+      name: clean_trips_job
+      parameters:
+        - name: catalog
+          default: ${var.catalog}
+        - name: schema
+          default: ${var.schema}
+      tasks:
+        - task_key: clean_trips
+          notebook_task:
+            notebook_path: ../src/clean_trips.py
+
+        - task_key: daily_summary
+          depends_on:
+            - task_key: clean_trips
+          notebook_task:
+            notebook_path: ../src/daily_summary.py
