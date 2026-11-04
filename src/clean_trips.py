@@ -11,7 +11,7 @@ target_table = f"{catalog}.{schema}.clean_trips"
 
 spark.sql(f"CREATE SCHEMA IF NOT EXISTS {catalog}.{schema}")
 
-trips = spark.read.table("samples.nyctaxi.trips")
+trips = spark.read.table(f"{catalog}.{schema}.bronze_trips")
 
 clean = (
     trips
