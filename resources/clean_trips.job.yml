@@ -2,13 +2,23 @@ resources:
   jobs:
     clean_trips_job:
       name: clean_trips_job
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"   # every day at 06:00
+        timezone_id: Europe/Stockholm
+        pause_status: UNPAUSED
       parameters:
         - name: catalog
           default: ${var.catalog}
         - name: schema
           default: ${var.schema}
       tasks:
+        - task_key: ingest_bronze
+          notebook_task:
+            notebook_path: ../src/ingest_bronze.py
+
         - task_key: clean_trips
+          depends_on:
+            - task_key: ingest_bronze
           notebook_task:
             notebook_path: ../src/clean_trips.py
 
