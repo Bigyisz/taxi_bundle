@@ -1,0 +1,10 @@
+resources:
+  pipelines:
+    taxi_pipeline:
+      name: taxi_pipeline
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      libraries:
+        - file:
+            path: ../src/pipeline/taxi_pipeline.py
