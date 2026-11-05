@@ -1,0 +1,18 @@
+# Databricks notebook source
+# Bronze layer: copy the raw taxi trips as-is, plus ingestion metadata.
+from pyspark.sql import functions as F
+
+dbutils.widgets.text("catalog", "test_catalog")
+dbutils.widgets.text("schema", "sara_bartha")
+catalog = dbutils.widgets.get("catalog")
+schema = dbutils.widgets.get("schema")
+target_table = f"{catalog}.{schema}.bronze_trips"
+
+spark.sql(f"CREATE SCHEMA IF NOT EXISTS {catalog}.{schema}")
+
+raw = (
+    spark.read.table("samples.nyctaxi.trips")
+    .withColumn("ingested_at", F.current_timestamp())
+)
+
+raw.write.mode("overwrite").saveAsTable(target_table)

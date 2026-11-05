@@ -32,6 +32,11 @@ targets:
     variables:
       catalog: test_catalog
       schema: ${workspace.current_user.short_name}
+    resources:
+      jobs:
+        clean_trips_job:
+          schedule:
+            pause_status: PAUSED
   prod:
     mode: production
     workspace:
