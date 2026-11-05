@@ -10,4 +10,8 @@ schema = dbutils.widgets.get("schema")
 bronze = spark.read.table(f"{catalog}.{schema}.bronze_trips")
 clean = clean_trips(bronze)
 
-clean.write.mode("overwrite").saveAsTable(f"{catalog}.{schema}.clean_trips")
+(
+    clean.write.mode("overwrite")
+    .option("overwriteSchema", "true")  # full refresh: let the table follow the new columns
+    .saveAsTable(f"{catalog}.{schema}.clean_trips")
+)
